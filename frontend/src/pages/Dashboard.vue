@@ -8,6 +8,16 @@
       <router-link to="/request-fuel" class="btn">Request Fuel</router-link>
       <router-link to="/request-maintenance" class="btn alt">Request Maintenance</router-link>
       <router-link to="/update-condition" class="btn purple">Update Vehicle Condition</router-link>
+    </div>
+
+    <div class="view-requests">
+      <h3>My Submitted Requests</h3>
+      <router-link to="/fuel-requests" class="btn outline">Fuel Requests</router-link>
+      <router-link to="/maintenance-requests" class="btn outline">Maintenance Requests</router-link>
+      <router-link to="/condition-updates" class="btn outline">Condition Updates</router-link>
+    </div>
+
+    <div class="logout-wrap">
       <button @click="logout" class="btn danger">Logout</button>
     </div>
   </div>
@@ -51,7 +61,9 @@ h2 {
   margin-bottom: 1rem;
 }
 
-.actions {
+.actions,
+.view-requests,
+.logout-wrap {
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
@@ -95,5 +107,16 @@ h2 {
 
 .btn.danger:hover {
   background: #8e0000;
+}
+
+.btn.outline {
+  background: transparent;
+  border: 2px solid #1a237e;
+  color: #1a237e;
+}
+
+.btn.outline:hover {
+  background: #1a237e;
+  color: white;
 }
 </style>

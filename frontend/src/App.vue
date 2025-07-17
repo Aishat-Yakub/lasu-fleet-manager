@@ -1,9 +1,8 @@
 <script setup>
 import AddVehicleForm from './components/AddVehicleForm.vue'
-import VehicleList     from './pages/VehicleList.vue'
+import VehicleList     from './components/VehicleList.vue'
 import FuelLogForm     from './components/FuelLogForm.vue'
-import FuelTable from './pages/FuelTable.vue'
-import MaintenanceForm  from './components/MaintenanceForm.vue'
+import FuelTable       from './pages/FuelTable.vue'
 import MaintenanceTable from './pages/MaintenanceTable.vue'
 </script>
 
@@ -18,10 +17,8 @@ import MaintenanceTable from './pages/MaintenanceTable.vue'
       <VehicleList />
       <FuelLogForm />
       <FuelTable />
-      <MaintenanceForm />      
       <MaintenanceTable />
       <router-view />
-           
     </main>
   </div>
 </template>

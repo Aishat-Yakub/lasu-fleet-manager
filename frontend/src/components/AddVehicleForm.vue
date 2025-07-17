@@ -1,108 +1,136 @@
+<!-- src/components/AddVehicleForm.vue -->
 <template>
-  <form @submit.prevent="handleSubmit" class="vehicle-form">
-    <label>
-      Plate Number:
-      <input v-model="vehicle.plateNumber" required />
-    </label>
+  <div class="add-vehicle-form">
+    <h2>Add Vehicle and Assign Owner</h2>
+    <form @submit.prevent="handleSubmit">
+      <!-- Vehicle Info -->
+      <div class="form-section">
+        <h3>Vehicle Information</h3>
 
-    <label>
-      Department:
-      <input v-model="vehicle.department" required />
-    </label>
+        <label>
+          Plate Number:
+          <input v-model="vehicle.plateNumber" required />
+        </label>
 
-    <label>
-      Driver:
-      <input v-model="vehicle.driver" />
-    </label>
+        <label>
+          Last Registration Date:
+          <input type="date" v-model="vehicle.registrationDate" required />
+        </label>
 
-    <label>
-      Vehicle Type:
-      <select v-model="vehicle.type" required>
-        <option>Car</option>
-        <option>Truck</option>
-        <option>Motorcycle</option>
-      </select>
-    </label>
+        <label>
+          Model:
+          <input v-model="vehicle.model" required />
+        </label>
 
-    <label>
-      Condition:
-      <select v-model="vehicle.condition" required>
-        <option>Active</option>
-        <option>Under Maintenance</option>
-        <option>Out of Service</option>
-      </select>
-    </label>
+        <label>
+          Color:
+          <input v-model="vehicle.color" required />
+        </label>
 
-    <label>
-      Last Maintenance Date:
-      <input type="date" v-model="vehicle.lastMaintenanceDate" />
-    </label>
+        <label>
+          Current Condition:
+          <textarea v-model="vehicle.condition" rows="2" required></textarea>
+        </label>
+      </div>
 
-    <label>
-      Registration Expiry:
-      <input type="date" v-model="vehicle.registrationExpiry" />
-    </label>
+      <!-- Owner Info -->
+      <div class="form-section">
+        <h3>Owner Information</h3>
 
-    <label>
-      Notes:
-      <textarea v-model="vehicle.notes"></textarea>
-    </label>
+        <label>
+          Owner Full Name:
+          <input v-model="vehicle.ownerName" required />
+        </label>
 
-    <button type="submit">Add Vehicle</button>
-  </form>
+        <label>
+          Owner Contact Phone:
+          <input type="tel" v-model="vehicle.ownerContact" required />
+        </label>
+
+        <label>
+          Staff Post:
+          <input v-model="vehicle.staffPost" placeholder="e.g., Lecturer, Driver" required />
+        </label>
+      </div>
+
+      <button type="submit">Add Vehicle</button>
+    </form>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import axios from 'axios'
+import { reactive } from 'vue'
 
-const vehicle = ref({
+const vehicle = reactive({
   plateNumber: '',
-  department: '',
-  driver: '',
-  type: 'Car',
-  condition: 'Active',
-  lastMaintenanceDate: '',
-  registrationExpiry: '',
-  notes: ''
+  registrationDate: '',
+  model: '',
+  color: '',
+  condition: '',
+  ownerName: '',
+  ownerContact: '',
+  staffPost: ''
 })
 
-const handleSubmit = async () => {
-  try {
-    await axios.post('http://localhost:3001/api/vehicles', vehicle.value)
-    alert('Vehicle added!')
-    // Clear form
-    Object.keys(vehicle.value).forEach(key => vehicle.value[key] = '')
-  } catch (err) {
-    alert('Error adding vehicle')
-    console.error(err)
-  }
+function handleSubmit() {
+  // For now, just log it to console
+  console.log('Vehicle submitted:', vehicle)
+  alert('Vehicle added (for now, just printed to console)')
+  // TODO: Send to backend via API
 }
 </script>
 
-<style scoped lang="scss">
-.vehicle-form {
-  display: grid;
-  gap: 1rem;
-  max-width: 500px;
-  margin: 0 auto;
+<style scoped>
+.add-vehicle-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: #fefefe;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
 
-  label {
-    display: flex;
-    flex-direction: column;
-  }
+h2, h3 {
+  text-align: center;
+  color: #222;
+}
 
-  button {
-    padding: 0.5rem;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
 
-  button:hover {
-    background: #0056b3;
-  }
+.form-section {
+  margin-bottom: 2rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  gap: 0.3rem;
+}
+
+input, textarea {
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+button {
+  background: #2b5cb8;
+  color: white;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.6rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #1e4693;
 }
 </style>
