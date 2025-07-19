@@ -17,7 +17,7 @@
       <!-- Fleet Managers -->
       <div v-if="currentTab === 'Fleet Managers'">
         <div class="button-group">
-          <button @click="router.push('/fleet-managers')">View Fleet Managers Table</button>
+          <button @click="router.push('/admin/fleet-manager-list')">View Fleet Managers Table</button>
           <button @click="router.push('/add-fleet-manager')">Add Fleet Manager</button>
         </div>
       </div>
@@ -25,7 +25,7 @@
       <!-- Auditors -->
       <div v-if="currentTab === 'Auditors'">
         <div class="button-group">
-          <button @click="router.push('/auditors')">View Auditors Table</button>
+          <button @click="router.push('/admin/auditor-list')">View Auditors Table</button>
           <button @click="router.push('/add-auditor')">Add Auditor</button>
         </div>
       </div>
@@ -33,17 +33,17 @@
       <!-- Vehicle Owners -->
       <div v-if="currentTab === 'Vehicle Owners'">
         <div class="button-group">
-          <button @click="router.push('/vehicle-owners')">View Vehicle Owners</button>
-          <button @click="router.push('/add-vehicle-owner')">Add Vehicle Owner</button>
+          <button @click="router.push('/admin/vehicle-list')">View Vehicle Owners</button>
+          <button @click="router.push('/add-vehicle')">Add Vehicle</button>
         </div>
       </div>
 
       <!-- Requests -->
       <div v-if="currentTab === 'Requests'">
         <div class="button-group">
-          <button @click="router.push('/fuel-requests')">View Fuel Requests</button>
-          <button @click="router.push('/maintenance-requests')">View Maintenance Requests</button>
-          <button @click="router.push('/condition-updates')">View Condition Updates</button>
+          <button @click="router.push('/admin/fuel-request-table')">View Fuel Requests</button>
+          <button @click="router.push('/admin/maintenance-request-table')">View Maintenance Requests</button>
+          <button @click="router.push('/admin/condition-updates-table')">View Condition Updates</button>
         </div>
       </div>
 
@@ -60,7 +60,6 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
 import AuditorDashboard from './AuditorDashboard.vue'
 
 const router = useRouter()

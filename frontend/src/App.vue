@@ -1,9 +1,5 @@
 <script setup>
-import AddVehicleForm from './components/AddVehicleForm.vue'
-import VehicleList     from './components/VehicleList.vue'
-import FuelLogForm     from './components/FuelLogForm.vue'
-import FuelTable       from './pages/FuelTable.vue'
-import MaintenanceTable from './pages/MaintenanceTable.vue'
+import SelectRole from './pages/SelectRole.vue'
 </script>
 
 <template>
@@ -13,11 +9,6 @@ import MaintenanceTable from './pages/MaintenanceTable.vue'
     </header>
 
     <main>
-      <AddVehicleForm />
-      <VehicleList />
-      <FuelLogForm />
-      <FuelTable />
-      <MaintenanceTable />
       <router-view />
     </main>
   </div>
@@ -25,4 +16,21 @@ import MaintenanceTable from './pages/MaintenanceTable.vue'
 
 <style scoped>
 /* any global App.vue styles here */
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+header {
+header {
+  background: #1a237e;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+}
+
+}
+main {
+  padding: 1rem;
+}
 </style>
