@@ -11,6 +11,16 @@
         autofocus
         @input="plateNumber = plateNumber.toUpperCase()"
       />
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        v-model="password"
+        placeholder="Enter your password"
+        required
+      />
+
       <button type="submit">Login</button>
     </form>
 
@@ -24,24 +34,35 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const plateNumber = ref('')
+const password = ref('')
 const error = ref('')
 
-const allowedPlates = ['LASU-123', 'ABC-456', 'XYZ-789'] // Simulated database
+// Simulated user database
+const allowedUsers = [
+  { plate: 'LASU-123', password: 'owner123' },
+  { plate: 'ABC-456', password: 'test456' },
+  { plate: 'XYZ-789', password: 'pass789' }
+]
 
 function handleLogin() {
   const plate = plateNumber.value.trim().toUpperCase()
+  const pass = password.value.trim()
 
-  if (!plate) {
-    error.value = 'Plate number is required.'
+  if (!plate || !pass) {
+    error.value = 'Both plate number and password are required.'
     return
   }
 
-  if (allowedPlates.includes(plate)) {
+  const user = allowedUsers.find(
+    u => u.plate === plate && u.password === pass
+  )
+
+  if (user) {
     localStorage.setItem('plateNumber', plate)
     error.value = ''
     router.push('/dashboard')
   } else {
-    error.value = 'Plate number not registered. Please contact your Fleet Manager.'
+    error.value = 'Invalid plate number or password.'
   }
 }
 </script>

@@ -1,0 +1,293 @@
+{
+  "meta": {
+    "title": "LASU Fleet Manager API",
+    "version": "1.0.0",
+    "baseUrl": "/api"
+  },
+  "owner": {
+    "login": {
+      "method": "POST",
+      "url": "/api/auth/login",
+      "body": {
+        "plateNumber": "string",
+        "password": "string"
+      },
+      "response": {
+        "token": "jwt‑token",
+        "user": {
+          "id": 42,
+          "role": "owner",
+          "plateNumber": "LASU‑123"
+        }
+      }
+    },
+    "fuelRequests": {
+      "create": {
+        "method": "POST",
+        "url": "/api/owners/{ownerId}/fuel-requests",
+        "body": {
+          "vehicleId": "number",
+          "litres": "number",
+          "reason": "string"
+        },
+        "response": {
+          "id": 101,
+          "ownerId": 42,
+          "vehicleId": 5,
+          "litres": 30,
+          "reason": "Weekly operation",
+          "status": "pending",
+          "createdAt": "2025-07-20T09:00:00Z"
+        }
+      },
+      "list": {
+        "method": "GET",
+        "url": "/api/owners/{ownerId}/fuel-requests",
+        "response": [
+          {
+            "id": 101,
+            "vehicleId": 5,
+            "litres": 30,
+            "status": "approved",
+            "createdAt": "2025-07-20T09:00:00Z"
+          }
+        ]
+      }
+    },
+    "maintenanceRequests": {
+      "create": {
+        "method": "POST",
+        "url": "/api/owners/{ownerId}/maintenance-requests",
+        "body": {
+          "vehicleId": "number",
+          "issue": "string",
+          "priority": "low|medium|high"
+        },
+        "response": {
+          "id": 202,
+          "ownerId": 42,
+          "vehicleId": 5,
+          "issue": "Brake failure",
+          "priority": "high",
+          "status": "pending",
+          "createdAt": "2025-07-20T09:05:00Z"
+        }
+      },
+      "list": {
+        "method": "GET",
+        "url": "/api/owners/{ownerId}/maintenance-requests",
+        "response": [
+          {
+            "id": 202,
+            "vehicleId": 5,
+            "issue": "Brake failure",
+            "status": "pending",
+            "createdAt": "2025-07-20T09:05:00Z"
+          }
+        ]
+      }
+    },
+    "conditionUpdates": {
+      "create": {
+        "method": "POST",
+        "url": "/api/owners/{ownerId}/condition-updates",
+        "body": {
+          "vehicleId": "number",
+          "condition": "string",
+          "notes": "string"
+        },
+        "response": {
+          "id": 303,
+          "ownerId": 42,
+          "vehicleId": 5,
+          "condition": "Good",
+          "notes": "No visible issues",
+          "createdAt": "2025-07-20T09:10:00Z"
+        }
+      },
+      "list": {
+        "method": "GET",
+        "url": "/api/owners/{ownerId}/condition-updates",
+        "response": [
+          {
+            "id": 303,
+            "vehicleId": 5,
+            "condition": "Good",
+            "notes": "No visible issues",
+            "createdAt": "2025-07-20T09:10:00Z"
+          }
+        ]
+      }
+    },
+    "inspectionFiles": {
+      "upload": {
+        "method": "POST",
+        "url": "/api/owners/{ownerId}/inspection-files",
+        "headers": {
+          "Authorization": "Bearer <token>",
+          "Content-Type": "multipart/form-data"
+        },
+        "body": {
+          "vehicleId": "number",
+          "file": "binary"
+        },
+        "response": {
+          "id": 404,
+          "vehicleId": 5,
+          "filename": "inspection_20250720.pdf",
+          "uploadedAt": "2025-07-20T12:00:00Z"
+        }
+      },
+      "list": {
+        "method": "GET",
+        "url": "/api/owners/{ownerId}/inspection-files",
+        "headers": {
+          "Authorization": "Bearer <token>"
+        },
+        "response": [
+          {
+            "id": 404,
+            "filename": "inspection_20250720.pdf",
+            "uploadedAt": "2025-07-20T12:00:00Z"
+          }
+        ]
+      }
+    }
+  },
+  "manager": {
+    "vehicles": {
+      "list": {
+        "method": "GET",
+        "url": "/api/manager/vehicles",
+        "response": [
+          {
+            "id": 5,
+            "plateNumber": "LASU‑123",
+            "ownerId": 42,
+            "status": "active",
+            "model": "Toyota Camry"
+          }
+        ]
+      },
+      "update": {
+        "method": "PUT",
+        "url": "/api/manager/vehicles/{vehicleId}",
+        "body": {
+          "status": "active|inactive"
+        },
+        "response": {
+          "id": 5,
+          "status": "inactive"
+        }
+      }
+    },
+    "approveFuel": {
+      "method": "PATCH",
+      "url": "/api/manager/fuel-requests/{requestId}",
+      "body": {
+        "action": "approve|reject"
+      },
+      "response": {
+        "id": 101,
+        "status": "approved"
+      }
+    },
+    "approveMaintenance": {
+      "method": "PATCH",
+      "url": "/api/manager/maintenance-requests/{requestId}",
+      "body": {
+        "action": "approve|reject"
+      },
+      "response": {
+        "id": 202,
+        "status": "rejected"
+      }
+    }
+  },
+  "auditor": {
+    "logs": {
+      "method": "GET",
+      "url": "/api/auditor/logs",
+      "query": {
+        "type": "fuel|maintenance|condition",
+        "from": "YYYY-MM-DD",
+        "to": "YYYY-MM-DD"
+      },
+      "response": [
+        {
+          "logId": 9001,
+          "type": "fuel",
+          "requestId": 101,
+          "changedBy": "manager",
+          "timestamp": "2025-07-20T10:00:00Z"
+        }
+      ]
+    }
+  },
+  "admin": {
+    "users": {
+      "list": {
+        "method": "GET",
+        "url": "/api/admin/users",
+        "response": [
+          {
+            "id": 42,
+            "name": "John Doe",
+            "role": "owner",
+            "status": "active"
+          }
+        ]
+      },
+      "create": {
+        "method": "POST",
+        "url": "/api/admin/users",
+        "body": {
+          "name": "string",
+          "role": "owner|manager|auditor|admin",
+          "username": "string",
+          "password": "string"
+        },
+        "response": {
+          "id": 55,
+          "status": "created"
+        }
+      },
+      "update": {
+        "method": "PUT",
+        "url": "/api/admin/users/{userId}",
+        "body": {
+          "status": "active|inactive"
+        },
+        "response": {
+          "id": 42,
+          "status": "inactive"
+        }
+      },
+      "delete": {
+        "method": "DELETE",
+        "url": "/api/admin/users/{userId}",
+        "response": {
+          "status": "deleted"
+        }
+      }
+    },
+    "vehicles": {
+      "create": {
+        "method": "POST",
+        "url": "/api/admin/vehicles",
+        "body": {
+          "plateNumber": "string",
+          "registrationDate": "YYYY-MM-DD",
+          "model": "string",
+          "color": "string",
+          "condition": "string",
+          "ownerId": "number"
+        },
+        "response": {
+          "id": 5,
+          "status": "created"
+        }
+      }
+    }
+  }
+}

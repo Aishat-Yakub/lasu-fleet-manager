@@ -2,6 +2,7 @@
 <template>
   <div class="add-vehicle-form">
     <h2>Add Vehicle and Assign Owner</h2>
+
     <form @submit.prevent="handleSubmit">
       <!-- Vehicle Info -->
       <div class="form-section">
@@ -51,6 +52,22 @@
           Staff Post:
           <input v-model="vehicle.staffPost" placeholder="e.g., Lecturer, Driver" required />
         </label>
+
+        <label>
+          Owner Password:
+          <input type="password" v-model="vehicle.ownerPassword" required />
+        </label>
+
+        <label>
+          Confirm Password:
+          <input
+            type="password"
+            v-model="vehicle.confirmPassword"
+            required
+          />
+        </label>
+
+        <p v-if="passwordError" class="error">{{ passwordError }}</p>
       </div>
 
       <button type="submit">Add Vehicle</button>
@@ -59,7 +76,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 const vehicle = reactive({
   plateNumber: '',
@@ -69,11 +86,21 @@ const vehicle = reactive({
   condition: '',
   ownerName: '',
   ownerContact: '',
-  staffPost: ''
+  staffPost: '',
+  ownerPassword: '',
+  confirmPassword: ''
 })
 
+const passwordError = ref('')
+
 function handleSubmit() {
-  // For now, just log it to console
+  if (vehicle.ownerPassword !== vehicle.confirmPassword) {
+    passwordError.value = 'Passwords do not match'
+    return
+  }
+  passwordError.value = ''
+
+  // For now, just log it
   console.log('Vehicle submitted:', vehicle)
   alert('Vehicle added (for now, just printed to console)')
   // TODO: Send to backend via API
@@ -81,6 +108,7 @@ function handleSubmit() {
 </script>
 
 <style scoped>
+/* (unchanged styles) */
 .add-vehicle-form {
   max-width: 600px;
   margin: 2rem auto;
@@ -112,7 +140,8 @@ label {
   gap: 0.3rem;
 }
 
-input, textarea {
+input,
+textarea {
   padding: 0.6rem;
   border-radius: 0.5rem;
   border: 1px solid #ccc;
@@ -132,5 +161,11 @@ button {
 
 button:hover {
   background: #1e4693;
+}
+
+.error {
+  color: red;
+  margin-top: -0.5rem;
+  font-size: 0.9rem;
 }
 </style>
